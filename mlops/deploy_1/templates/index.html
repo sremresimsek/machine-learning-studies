@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pırlantanızın özelliklerini girin, makine öğrenmesi modeliyle tahmini fiyatını keşfedin.">
+    <title>Facet · Pırlanta Fiyat Tahmini</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <script src="{{ url_for('static', path='app.js') }}" defer></script>
+</head>
+<body>
+    <header class="header">
+        <a class="brand" href="/" aria-label="Facet ana sayfa"><span class="brand-icon">◇</span> facet<span class="brand-dot">.</span></a>
+        <span class="header-note"><span class="status-dot"></span> Makine öğrenmesi ile fiyat tahmini</span>
+    </header>
+    <main>
+        <section class="intro">
+            <p class="eyebrow">HER PIRLANTANIN BİR HİKÂYESİ VAR</p>
+            <h1>Değerini <em>keşfedin.</em></h1>
+            <p>Pırlantanızın özelliklerini girin. Veriden öğrenen modelimiz,<br class="desktop-break"> tahmini fiyatını sizin için hesaplasın.</p>
+        </section>
+        <div class="workspace">
+            <section class="form-card" aria-labelledby="form-title">
+                <div class="card-heading"><div><p class="eyebrow">PIRLANTANIZI TANIYALIM</p><h2 id="form-title">Taşın özellikleri</h2></div><button type="button" class="text-button" id="fillExample">Örnek doldur <span aria-hidden="true">↗</span></button></div>
+                <div class="completion" aria-live="polite"><span id="completionLabel">0 / 9 özellik girildi</span><progress id="completionProgress" value="0" max="9" aria-label="Doldurulan özellikler">0 / 9</progress></div>
+                <form id="predictionForm">
+                    <fieldset><legend><span>01</span> Temel özellikler</legend>
+                        <div class="fields two-columns">
+                            <div class="field"><label for="carat">Karat <span>Ağırlık</span></label><div class="input-wrap"><input id="carat" name="carat" type="number" min="0.01" step="any" placeholder="0.23" aria-describedby="caratHelp" required><span class="unit">ct</span></div><small id="caratHelp" class="input-help">1 karat = 0,2 gram</small></div>
+                            <div class="field"><label for="cut">Kesim <span>Cut</span></label><select id="cut" name="cut" required><option value="" disabled selected>Kesim seçin</option><option value="Fair">Fair · Orta</option><option value="Good">Good · İyi</option><option value="Very Good">Very Good · Çok iyi</option><option value="Premium">Premium · Üstün</option><option value="Ideal">Ideal · İdeal</option></select></div>
+                            <div class="field"><label for="color">Renk <span>Color</span></label><select id="color" name="color" required><option value="" disabled selected>Renk seçin</option><option value="D">D · Renksiz</option><option value="E">E · Renksiz</option><option value="F">F · Renksiz</option><option value="G">G · Renksize yakın</option><option value="H">H · Renksize yakın</option><option value="I">I · Renksize yakın</option><option value="J">J · Renksize yakın</option></select></div>
+                            <div class="field"><label for="clarity">Berraklık <span>Clarity</span></label><select id="clarity" name="clarity" required><option value="" disabled selected>Berraklık seçin</option><option value="I1">I1 · Belirgin kapanımlar</option><option value="SI2">SI2 · Hafif kapanımlar</option><option value="SI1">SI1 · Hafif kapanımlar</option><option value="VS2">VS2 · Çok hafif kapanımlar</option><option value="VS1">VS1 · Çok hafif kapanımlar</option><option value="VVS2">VVS2 · Çok çok hafif kapanımlar</option><option value="VVS1">VVS1 · Çok çok hafif kapanımlar</option><option value="IF">IF · İç kusursuz</option></select></div>
+                        </div>
+                    </fieldset>
+                    <fieldset><legend><span>02</span> Oranlar ve ölçüler</legend>
+                        <div class="fields two-columns">
+                            <div class="field"><label for="depth">Derinlik oranı <span>Depth</span></label><div class="input-wrap"><input id="depth" name="depth" type="number" min="0.01" max="100" step="any" placeholder="61.5" required><span class="unit">%</span></div></div>
+                            <div class="field"><label for="table">Tabla oranı <span>Table</span></label><div class="input-wrap"><input id="table" name="table" type="number" min="0.01" max="100" step="any" placeholder="55" required><span class="unit">%</span></div></div>
+                        </div>
+                        <div class="fields three-columns dimensions">
+                            <div class="field"><label for="x">Uzunluk <span>x</span></label><div class="input-wrap"><input id="x" name="x" type="number" min="0.01" step="any" placeholder="3.95" required><span class="unit">mm</span></div></div>
+                            <div class="field"><label for="y">Genişlik <span>y</span></label><div class="input-wrap"><input id="y" name="y" type="number" min="0.01" step="any" placeholder="3.98" required><span class="unit">mm</span></div></div>
+                            <div class="field"><label for="z">Yükseklik <span>z</span></label><div class="input-wrap"><input id="z" name="z" type="number" min="0.01" step="any" placeholder="2.43" required><span class="unit">mm</span></div></div>
+                        </div>
+                        <p class="field-help">Ölçüleri milimetre, oranları yüzde olarak girin. Tabla, taşın üst düz yüzeyidir; derinlik oranı, yüksekliğinin ortalama çapına oranıdır.</p>
+                    </fieldset>
+                    <div id="errorMessage" class="error-message" role="alert" hidden></div>
+                    <button type="submit" class="submit-button" id="predictButton"><span id="buttonLabel">Tahmini fiyatı hesapla</span><span aria-hidden="true">↗</span></button>
+                    <p class="form-note">Tüm alanlar gereklidir. Sonuç ABD doları (USD) cinsindendir.</p>
+                    <button type="reset" class="reset-button">Formu temizle</button>
+                </form>
+            </section>
+            <aside class="sidebar">
+                <section class="result-card" aria-labelledby="result-title" aria-live="polite" aria-atomic="true" id="resultCard">
+                    <div class="result-top"><span class="eyebrow">TAHMİN SONUCU</span><span class="result-tag" id="resultTag">Hazır olduğunuzda</span></div>
+                    <svg class="diamond" viewBox="0 0 300 220" fill="none" aria-hidden="true"><defs><linearGradient id="gem" x1="60" y1="30" x2="235" y2="190" gradientUnits="userSpaceOnUse"><stop stop-color="#dcf0e4" stop-opacity=".28"/><stop offset="1" stop-color="#dcf0e4" stop-opacity=".02"/></linearGradient></defs><path d="M78 48h144l42 57-114 98L36 105z" fill="url(#gem)" stroke="#a8c7b7" stroke-width="1.2"/><path d="m78 48 22 57 50-57 50 57 22-57M36 105h228M100 105l50 98 50-98M78 48l72 155L222 48" stroke="#a8c7b7" stroke-opacity=".6"/><path d="M251 37v18m-9-9h18M48 154v12m-6-6h12" stroke="#d5e6d9"/></svg>
+                    <h2 id="result-title">Pırlantanızın tahmini değeri</h2>
+                    <div class="price" id="predictedPrice">— <span>USD</span></div>
+                    <p class="result-description" id="resultDescription">Özellikleri doldurun; tahmininiz<br> burada görünsün.</p>
+                    <div class="result-summary" id="resultSummary" hidden></div>
+                    <div class="result-foot"><span aria-hidden="true">◇</span> Özelliklerden değere, verinin ışığında.</div>
+                </section>
+                <section class="guide"><span class="guide-icon" aria-hidden="true">i</span><div><h3>Küçük detaylar, farklı değerler.</h3><p>Karat, kesim, renk ve berraklık taşın temel özellikleridir. Oranlar ve boyutlar, modelin tahminini tamamlar.</p><p class="disclaimer">Bu sonuç, diamonds veri setiyle eğitilen modelin tahminidir; güncel piyasa fiyatı veya ekspertiz raporu değildir.</p></div></section>
+            </aside>
+        </div>
+    </main>
+    <footer><span class="brand footer-brand">facet.</span><span>Veriyle keşfet. Bilgiyle değerlendir.</span><span>Diamonds veri seti · Makine öğrenmesi</span></footer>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+.vscode/
+.idea/
+
+# Local caches and logs
+*.log
+.cache/
+
+# Dataset files
+*.csv
+*.xlsx
+*.xls
+*.tsv

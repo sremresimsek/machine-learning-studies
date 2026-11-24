@@ -1,0 +1,12 @@
+# Broad study dependencies; these are not a tested lockfile.
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+scipy
+xgboost
+lightgbm
+imbalanced-learn
+openpyxl
+jupyter
