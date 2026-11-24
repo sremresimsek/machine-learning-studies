@@ -110,7 +110,3 @@ The links below refer to the original folder names, retained to avoid breaking c
 - The unfinished `mlops/deploy_2` has intentionally been excluded.
 - This cleanup does not establish independent test-set validity or remove all possible data leakage in the original exercises.
 - Dataset files are excluded from this repository. To reproduce the notebooks, download the corresponding datasets separately and place them in the expected directories.
-
-### Notes on changes
-
-See [`CLEANUP_REPORT.md`](CLEANUP_REPORT.md) for the exact edits and remaining manual-review items.
