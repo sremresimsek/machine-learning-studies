@@ -1,11 +1,11 @@
 # Diamond Price Prediction — Guided Deployment Exercise
 
-This course-based example uses a trained **SVR model** to estimate diamond prices from nine tabular features, with a **FastAPI** backend and a small HTML/CSS/JavaScript front end. It is **a learning exercise, not a production-grade pricing service**.
+This course-based example uses a trained **SVR model** to estimate diamond prices from nine tabular features, with a **FastAPI** backend and a small HTML/CSS/JavaScript front end. The project owner has tested the app locally; it remains **a learning exercise, not a production-grade pricing service**.
 
 ## Files
 
 - `main.ipynb`: data filtering, categorical encoding, model training, evaluation and serialization.
-- `diamonds.csv`: local copy of the study dataset (original provenance still needs confirmation).
+- `diamonds.csv`: local study dataset required to rerun the training notebook; **not included in this repository** (see [`DATA_SOURCES.md`](../../DATA_SOURCES.md)).
 - `diamond_model_complete.pkl`: pretrained model bundle used by the API.
 - `app.py`, `templates/`, `static/`: FastAPI server and browser UI.
 - `requirements.txt`: requirements originally specified for the web application.
@@ -47,7 +47,7 @@ The app now resolves assets and the pickle path relative to `app.py` instead of 
 
 ## Limitations
 
-- The bundled SVR model and the API were **not runtime-tested** in this cleanup.
+- The project owner reported successfully running and testing the FastAPI application locally in November 2026; no automated test suite or deployment verification is claimed.
 - The numeric input range is currently validated in the HTML form; the API's Pydantic schema does not fully enforce domain constraints.
 - Use the included training notebook to study how the model was created. Reported notebook metrics are historical educational outputs, not independent production validation.
-- Dataset provenance, license, and whether the pretrained model is suitable for your specific Python/scikit-learn environment need to be verified before a public release.
+- The training dataset is excluded from this public repository; its provenance and licence have not been independently verified. Model compatibility may vary with Python/scikit-learn versions.
